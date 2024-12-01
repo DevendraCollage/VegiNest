@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "484894104461",
+    "project_id": "vegi-nest",
+    "storage_bucket": "vegi-nest.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484894104461:android:ce995a6595a3bc696f7bc4",
+        "android_client_info": {
+          "package_name": "com.example.food_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdZj2TMwGkgdpoq4X6wMYNUfM_wFbt6AA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

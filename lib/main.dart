@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/auth/sign_in.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SignIn(),
+      home: const SignIn(),
     );
   }
 }

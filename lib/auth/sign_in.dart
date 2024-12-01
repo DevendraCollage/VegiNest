@@ -1,8 +1,53 @@
+import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:food_app/HomeScreen.dart";
+import "package:google_sign_in/google_sign_in.dart";
 import "package:sign_in_button/sign_in_button.dart";
 
-class SignIn extends StatelessWidget {
+class SignIn extends StatefulWidget {
   const SignIn({super.key});
+
+  @override
+  State<SignIn> createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
+  Future<void> _googleSignUp() async {
+    try {
+      final GoogleSignIn googleSignIn = GoogleSignIn(
+        scopes: ['email'],
+      );
+      final FirebaseAuth auth = FirebaseAuth.instance;
+
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      if (googleUser == null) {
+        print("Sign-in aborted by user");
+        return;
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final UserCredential userCredential =
+          await auth.signInWithCredential(credential);
+      final User? user = userCredential.user;
+
+      if (user != null) {
+        print("Signed in successfully: ${user.displayName}");
+      } else {
+        print("User is null after signing in");
+      }
+    } on FirebaseAuthException catch (e) {
+      print("FirebaseAuthException: ${e.message}");
+    } catch (e) {
+      print("Unexpected error: ${e.toString()}");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +85,12 @@ class SignIn extends StatelessWidget {
                       BoxShadow(
                         blurRadius: 30,
                         color: Colors.black.withOpacity(0.8),
-                        offset: Offset(4, 4),
+                        offset: const Offset(4, 4),
                       ),
                       BoxShadow(
                         blurRadius: 45,
                         color: Colors.green.shade900,
-                        offset: Offset(6, 6),
+                        offset: const Offset(6, 6),
                       ),
                     ],
                   ),
@@ -60,7 +105,11 @@ class SignIn extends StatelessWidget {
                 SignInButton(
                   Buttons.google,
                   text: "Sign in with Google",
-                  onPressed: () {},
+                  onPressed: () {
+                    _googleSignUp().then((value) => Navigator.of(context)
+                        .pushReplacement(MaterialPageRoute(
+                            builder: (context) => const HomeScreen())));
+                  },
                 ),
                 const SizedBox(height: 10),
                 SignInButton(
